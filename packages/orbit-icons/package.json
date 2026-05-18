@@ -1,0 +1,66 @@
+{
+  "name": "orbit-icons",
+  "version": "0.1.0",
+  "description": "A beautifully crafted open-source icon pack",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "svg"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./icons.json": "./dist/icons.json",
+    "./icons/*": {
+      "import": {
+        "types": "./dist/icons/*.d.ts",
+        "default": "./dist/icons/*.js"
+      },
+      "require": {
+        "types": "./dist/icons/*.d.cts",
+        "default": "./dist/icons/*.cjs"
+      }
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsx src/build.ts && tsup",
+    "build:icons": "tsx src/build.ts"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@iconify/tools": "^4.0.0",
+    "@iconify/types": "^2.0.0",
+    "@types/react": "^19.2.14",
+    "react": "^19.0.0",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [
+    "icons",
+    "svg",
+    "react",
+    "icon-pack",
+    "orbit-icons",
+    "iconify"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orbit-icons/orbit-icons"
+  }
+}
