@@ -1,7 +1,19 @@
 import iconsData from 'orbit-icons/icons.json';
-import type { IconifyJSON } from '@iconify/utils';
 
-export const iconifyData = iconsData as IconifyJSON;
+interface IconData {
+  body: string;
+  width?: number;
+  height?: number;
+}
+
+interface IconSetData {
+  prefix: string;
+  icons: Record<string, IconData>;
+  width?: number;
+  height?: number;
+}
+
+const iconifyData = iconsData as IconSetData;
 
 export interface IconEntry {
   name: string;
