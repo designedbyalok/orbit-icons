@@ -1,6 +1,6 @@
 {
   "name": "orbit-icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A beautifully crafted open-source icon pack",
   "type": "module",
   "main": "./dist/index.cjs",
