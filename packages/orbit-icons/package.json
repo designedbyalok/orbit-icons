@@ -61,6 +61,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/orbit-icons/orbit-icons"
+    "url": "https://github.com/designedbyalok/orbit-icons",
+    "directory": "packages/orbit-icons"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
