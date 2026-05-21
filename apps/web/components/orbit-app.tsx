@@ -510,4 +510,3 @@ function IconGrid({ items, onPick, favSet, strokeWidth }: {
     </div>
   );
 }
-}
