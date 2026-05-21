@@ -28,7 +28,7 @@ const ${pascalName} = forwardRef<SVGSVGElement, IconProps>(
       viewBox="0 0 ${width} ${height}"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}

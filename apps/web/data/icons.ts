@@ -738,28 +738,28 @@ export const ICONS: IconEntry[] = [
   {
     "name": "chevron-down",
     "category": "Arrows",
-    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m12 6-4 4-4-4\"/>",
+    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m12 6-4 4-4-4\"/>",
     "width": 16,
     "height": 16
   },
   {
     "name": "chevron-left",
     "category": "Arrows",
-    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M10 12 6 8l4-4\"/>",
+    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10 12 6 8l4-4\"/>",
     "width": 16,
     "height": 16
   },
   {
     "name": "chevron-right",
     "category": "Arrows",
-    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m6 4 4 4-4 4\"/>",
+    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m6 4 4 4-4 4\"/>",
     "width": 16,
     "height": 16
   },
   {
     "name": "chevron-up",
     "category": "Arrows",
-    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"m4 10 4-4 4 4\"/>",
+    "svg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m4 10 4-4 4 4\"/>",
     "width": 16,
     "height": 16
   },

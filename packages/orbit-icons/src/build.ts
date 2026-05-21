@@ -35,6 +35,11 @@ async function build() {
           return !color || isEmptyColor(color) ? colorStr : 'currentColor';
         },
       });
+
+      // Remove hardcoded stroke-width to allow global control
+      const cleaned = svg.toString().replace(/stroke-width="[^"]*"/g, '');
+      svg.load(cleaned);
+
       runSVGO(svg);
     } catch (err) {
       console.error(`Error processing ${name}:`, err);
