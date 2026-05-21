@@ -68,6 +68,7 @@ export function OrbitApp() {
   const [toast, setToast] = useState<string | null>(null);
   const [favorites, setFavorites] = useLocalStorage<string[]>('orbit:favs', []);
   const [recents, setRecents] = useLocalStorage<string[]>('orbit:recents', []);
+  const [strokeWidth, setStrokeWidth] = useState(1.5);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -235,11 +236,11 @@ export function OrbitApp() {
             <BrandIcon kind="github" size={14} /> <span>GitHub</span>
           </a>
           <button onClick={() => setReqOpen(true)}>
-            <OrbitIcon name="plus" size={14} /> <span>Request</span>
+            <OrbitIcon name="plus" size={14} strokeWidth={strokeWidth} /> <span>Request</span>
           </button>
           {mounted && (
             <button className={`theme-toggle ${animating ? 'animating' : ''}`} onClick={handleToggle} aria-label="Toggle theme">
-              <OrbitIcon name={theme === 'dark' ? 'sun' : 'moon'} size={16} />
+              <OrbitIcon name={theme === 'dark' ? 'sun' : 'moon'} size={16} strokeWidth={strokeWidth} />
             </button>
           )}
         </div>
@@ -260,13 +261,13 @@ export function OrbitApp() {
           </h1>
           <p className="hero-sub">
             A system-driven library of <em>{ICONS.length} line icons</em>, engineered for clarity and consistency. 
-            Every mark is hand-drawn on a 24-pixel grid with a signature 1.5-pixel stroke—built 
+            Every mark is hand-drawn on a 24-pixel grid with a signature {strokeWidth.toFixed(1)}-pixel stroke—built 
             to read equally well as a glyph or as a button.
           </p>
           <div className="hero-meta">
             <span><b>{ICONS.length}</b> icons</span>
             <span><b>24×24</b> grid</span>
-            <span><b>1.5px</b> stroke</span>
+            <span><b>{strokeWidth.toFixed(1)}px</b> stroke</span>
             <span><b>MIT</b> license</span>
           </div>
         </div>
@@ -275,11 +276,11 @@ export function OrbitApp() {
         <aside className="specimen">
           <div className="specimen-head">
             <span className="title">Fig. — Construction</span>
-            <span className="fig">24 × 24 · stroke 1.5</span>
+            <span className="fig">24 × 24 · stroke {strokeWidth.toFixed(1)}</span>
           </div>
           <div className="specimen-grid-wrap">
             <div className="specimen-icon">
-              <OrbitIcon name={heroSpecimen?.name || 'compass'} size={160} strokeWidth={1.5} />
+              <OrbitIcon name={heroSpecimen?.name || 'compass'} size={160} strokeWidth={strokeWidth} />
             </div>
             <div className="specimen-annotations">
               <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none"
@@ -294,7 +295,7 @@ export function OrbitApp() {
                 <span>⌐ corner radius</span>
               </div>
               <div className="anno" style={{ bottom: 4, left: 6 }}>
-                <span>1.5px · round caps</span>
+                <span>{strokeWidth.toFixed(1)}px · round caps</span>
               </div>
             </div>
           </div>
@@ -325,8 +326,8 @@ export function OrbitApp() {
             </div>
             <button className={`copy-btn ${heroCopied ? 'copied' : ''}`} onClick={copyInstall}>
               {heroCopied
-                ? <><OrbitIcon name="check" size={12} />Copied</>
-                : <><OrbitIcon name="copy" size={12} />Copy</>}
+                ? <><OrbitIcon name="check" size={12} strokeWidth={strokeWidth} />Copied</>
+                : <><OrbitIcon name="copy" size={12} strokeWidth={strokeWidth} />Copy</>}
             </button>
           </div>
         </div>
@@ -346,7 +347,7 @@ export function OrbitApp() {
             </div>
             <div className="rationale-item">
               <h4>Cohesive Weight</h4>
-              <p>With a constant 1.5px stroke and rounded terminals, Orbit provides a warm, uniform aesthetic that maintains optical balance across the set.</p>
+              <p>With a constant {strokeWidth.toFixed(1)}px stroke and rounded terminals, Orbit provides a warm, uniform aesthetic that maintains optical balance across the set.</p>
             </div>
             <div className="rationale-item">
               <h4>Developer-First Utility</h4>
@@ -364,7 +365,7 @@ export function OrbitApp() {
       <div className="search-section">
         <div className="search-inner">
           <div className="search-input-wrap">
-            <OrbitIcon name="search" size={16} />
+            <OrbitIcon name="search" size={16} strokeWidth={strokeWidth} />
             <input
               ref={searchRef}
               className="search-input"
@@ -374,19 +375,31 @@ export function OrbitApp() {
             />
             {query
               ? <button onClick={() => setQuery('')} aria-label="Clear" style={{ padding: 4, color: 'var(--fg-3)' }}>
-                  <OrbitIcon name="x" size={14} />
+                  <OrbitIcon name="x" size={14} strokeWidth={strokeWidth} />
                 </button>
               : <span className="search-kbd">/</span>}
           </div>
           <span className="search-count">{String(filtered.length).padStart(3, '0')} of {ICONS.length}</span>
         </div>
-        <div className="search-inner" style={{ marginTop: 12 }}>
+        <div className="search-inner" style={{ marginTop: 12, justifyContent: 'space-between' }}>
           <div className="cats">
             {categories.map(c => (
               <button key={c} className={`cat-chip ${activeCat === c ? 'active' : ''}`} onClick={() => setActiveCat(c)}>
                 {c}
               </button>
             ))}
+          </div>
+          <div className="stroke-ctrl" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '0 8px' }}>
+            <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--fg-3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Stroke: {strokeWidth.toFixed(1)}px</span>
+            <input 
+              type="range" 
+              min="0.5" 
+              max="2.5" 
+              step="0.1" 
+              value={strokeWidth} 
+              onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
+              style={{ width: 80, accentColor: 'var(--accent)' }}
+            />
           </div>
         </div>
       </div>
@@ -395,12 +408,12 @@ export function OrbitApp() {
       <div className="grid-wrap">
         {showFavRow && (
           <GridSection chap="—" title="Favorites" sub="frequently reached for" count={favIcons.length}>
-            <IconGrid items={favIcons} onPick={onPickIcon} favSet={favSet} />
+            <IconGrid items={favIcons} onPick={onPickIcon} favSet={favSet} strokeWidth={strokeWidth} />
           </GridSection>
         )}
         {showRecRow && (
           <GridSection chap="—" title="Recently used" sub="from this session" count={recentIcons.length}>
-            <IconGrid items={recentIcons} onPick={onPickIcon} favSet={favSet} />
+            <IconGrid items={recentIcons} onPick={onPickIcon} favSet={favSet} strokeWidth={strokeWidth} />
           </GridSection>
         )}
 
@@ -409,7 +422,7 @@ export function OrbitApp() {
             <h4>Nothing matches &ldquo;{query}&rdquo;</h4>
             <p>Try a different keyword — or ask for it.</p>
             <button className="req-link" onClick={() => setReqOpen(true)}>
-              <OrbitIcon name="plus" size={14} /> Request &ldquo;{query}&rdquo;
+              <OrbitIcon name="plus" size={14} strokeWidth={strokeWidth} /> Request &ldquo;{query}&rdquo;
             </button>
           </div>
         ) : grouped.map(([cat, items], i) => items.length > 0 && (
@@ -420,7 +433,7 @@ export function OrbitApp() {
             sub={CATEGORY_NOTES[cat] || ''}
             count={items.length}
           >
-            <IconGrid items={items} onPick={onPickIcon} favSet={favSet} />
+            <IconGrid items={items} onPick={onPickIcon} favSet={favSet} strokeWidth={strokeWidth} />
           </GridSection>
         ))}
       </div>
@@ -472,10 +485,11 @@ function GridSection({ chap, title, sub, count, children }: {
   );
 }
 
-function IconGrid({ items, onPick, favSet }: {
+function IconGrid({ items, onPick, favSet, strokeWidth }: {
   items: typeof ICONS;
   onPick: (name: string) => void;
   favSet: Set<string>;
+  strokeWidth: number;
 }) {
   return (
     <div className="icon-grid">
@@ -488,12 +502,12 @@ function IconGrid({ items, onPick, favSet }: {
             e.preventDefault();
             onPick(icon.name);
           }}
-          aria-label={icon.name}
         >
-          <OrbitIcon name={icon.name} size={24} />
-          <span className="label">{icon.name}</span>
+          <OrbitIcon name={icon.name} size={32} strokeWidth={strokeWidth} />
+          <span className="label">{icon.name.split('-').pop()}</span>
         </a>
       ))}
     </div>
   );
+}
 }

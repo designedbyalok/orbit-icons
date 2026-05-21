@@ -6,7 +6,7 @@ export function OrbitIcon({
   name,
   size = 24,
   color,
-  strokeWidth = 1,
+  strokeWidth = 1.5,
   className,
   ...rest
 }: {
