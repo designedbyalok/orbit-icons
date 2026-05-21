@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { ICONS, ICON_BY_NAME } from '@/data/icons';
 import { OrbitIcon, BrandIcon, OrbitMark } from './orbit-icon';
@@ -51,6 +52,8 @@ function useLocalStorage<T>(key: string, initial: T): [T, (v: T | ((prev: T) => 
 export function OrbitApp() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [query, setQuery] = useState('');
   const [activeCat, setActiveCat] = useState('All');
@@ -62,7 +65,14 @@ export function OrbitApp() {
   const [recents, setRecents] = useLocalStorage<string[]>('orbit:recents', []);
   const searchRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const select = searchParams.get('select');
+    if (select && ICON_BY_NAME[select]) {
+      setSelected(ICON_BY_NAME[select]);
+      setSheetOpen(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -88,6 +98,17 @@ export function OrbitApp() {
     setSelected(icon);
     setSheetOpen(true);
     setRecents(prev => [name, ...prev.filter(n => n !== name)].slice(0, 12));
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('select', name);
+    window.history.pushState({}, '', url.toString());
+  };
+
+  const closeSheet = () => {
+    setSheetOpen(false);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('select');
+    window.history.pushState({}, '', url.toString());
   };
 
   const onToggleFav = (name: string) => {
@@ -223,20 +244,19 @@ export function OrbitApp() {
       <header className="hero">
         <div>
           <div className="hero-folio">
-            <span>OI · 001</span>
+            <span className="chap-num">§ I — Introduction</span>
             <span>·</span>
             <span className="field-of-study">A field guide to small marks</span>
           </div>
           <h1 className="hero-title">
             Icons,<br />
             <span className="rule"></span>
-            <span className="it">in orbit.</span>
+            <span className="it">in balance.</span>
           </h1>
           <p className="hero-sub">
-            A minimal, system-driven set of <em>{ICONS.length} line icons</em>.
-            Each mark is drawn on a 24-pixel grid with a 1.5-pixel stroke,
-            rounded ends, and consistent optical weight — built to read
-            equally well as a glyph or as a button.
+            A system-driven library of <em>{ICONS.length} line icons</em>, engineered for clarity and consistency. 
+            Every mark is hand-drawn on a 24-pixel grid with a signature 1.5-pixel stroke—built 
+            to read equally well as a glyph or as a button.
           </p>
           <div className="hero-meta">
             <span><b>{ICONS.length}</b> icons</span>
@@ -307,6 +327,34 @@ export function OrbitApp() {
         </div>
       </div>
 
+      {/* Rationale */}
+      <section className="rationale">
+        <div className="rationale-inner">
+          <div className="rationale-head">
+            <span className="chap-num">§ II — Rationale</span>
+            <h3>Precision as a <em>standard</em>.</h3>
+          </div>
+          <div className="rationale-grid">
+            <div className="rationale-item">
+              <h4>Precision-Engineered</h4>
+              <p>Every icon strictly adheres to a 24-pixel grid. This ensures perfect pixel-alignment and razor-sharp rendering on high-density displays.</p>
+            </div>
+            <div className="rationale-item">
+              <h4>Cohesive Weight</h4>
+              <p>With a constant 1.5px stroke and rounded terminals, Orbit provides a warm, uniform aesthetic that maintains optical balance across the set.</p>
+            </div>
+            <div className="rationale-item">
+              <h4>Developer-First Utility</h4>
+              <p>Available as a tree-shakeable React package or raw SVGs. Designed to be styled effortlessly via CSS and integrated in seconds.</p>
+            </div>
+            <div className="rationale-item">
+              <h4>Sophisticated Neutrality</h4>
+              <p>Designed as a &ldquo;system-first&rdquo; icon set—sophisticated enough to stand alone, but neutral enough to blend into any interface.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Search */}
       <div className="search-section">
         <div className="search-inner">
@@ -362,7 +410,7 @@ export function OrbitApp() {
         ) : grouped.map(([cat, items], i) => items.length > 0 && (
           <GridSection
             key={cat}
-            chap={`§ ${ROMAN[i] || i + 1}`}
+            chap={`§ ${ROMAN[i + 2] || i + 3}`}
             title={cat}
             sub={CATEGORY_NOTES[cat] || ''}
             count={items.length}
@@ -386,7 +434,7 @@ export function OrbitApp() {
       <BottomSheet
         icon={selected}
         open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
+        onClose={closeSheet}
         onToast={showToast}
         isFav={selected ? favorites.includes(selected.name) : false}
         onToggleFav={onToggleFav}
@@ -427,15 +475,19 @@ function IconGrid({ items, onPick, favSet }: {
   return (
     <div className="icon-grid">
       {items.map(icon => (
-        <button
+        <a
           key={icon.name}
+          href={`/icons/${icon.name}`}
           className={`icon-cell ${favSet.has(icon.name) ? 'fav-marker' : ''}`}
-          onClick={() => onPick(icon.name)}
+          onClick={(e) => {
+            e.preventDefault();
+            onPick(icon.name);
+          }}
           aria-label={icon.name}
         >
           <OrbitIcon name={icon.name} size={24} />
           <span className="label">{icon.name}</span>
-        </button>
+        </a>
       ))}
     </div>
   );

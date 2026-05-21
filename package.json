@@ -1,6 +1,11 @@
 {
   "name": "orbit-icons-monorepo",
   "private": true,
+  "homepage": "https://orbit-icons.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/designedbyalok/orbit-icons"
+  },
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "build": "turbo build",

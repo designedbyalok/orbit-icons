@@ -2,6 +2,7 @@
   "name": "orbit-icons",
   "version": "0.2.0",
   "description": "A beautifully crafted open-source icon pack",
+  "homepage": "https://orbit-icons.vercel.app/",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

@@ -2,6 +2,7 @@
   "name": "orbit-icons-web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://orbit-icons.vercel.app/",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
